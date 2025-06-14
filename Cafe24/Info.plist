@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>허락 해줭~~</string>
+	<key>NSLocationDefaultAccuracyReduced</key>
+	<true/>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>허락 해줘잉~~</string>
+	<key>Privacy — Location Always and When In Use Usage Description</key>
+	<string>Help!!</string>
+	<key>NMFNcpKeyId</key>
+	<string>$(NMF_NCP_KEY_ID)</string>
+</dict>
+</plist>
