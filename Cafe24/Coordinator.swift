@@ -29,7 +29,7 @@ class Coordinator: NSObject, ObservableObject,
     override init() {
         super.init()
         
-        view.mapView.positionMode = .direction
+        view.mapView.positionMode = .direction  // .normal: 위치만 표시, .direction: 사용자의 방향까지 표시됨, .compass: 나침반 모드
         view.mapView.isNightModeEnabled = true
         
         view.mapView.zoomLevel = 15 // 기본 맵이 표시될때 줌 레벨
@@ -71,13 +71,14 @@ class Coordinator: NSObject, ObservableObject,
         
         switch locationManager.authorizationStatus {
         case .notDetermined:
+            print("notDetermined.")
             locationManager.requestWhenInUseAuthorization()
         case .restricted:
             print("위치 정보 접근이 제한되었습니다.")
         case .denied:
             print("위치 정보 접근을 거절했습니다. 설정에 가서 변경하세요.")
         case .authorizedAlways, .authorizedWhenInUse:
-            print("Success")
+            print("위치 정보 가져오기 성공")
             
             coord = (Double(locationManager.location?.coordinate.latitude ?? 0.0), Double(locationManager.location?.coordinate.longitude ?? 0.0))
             userLocation = (Double(locationManager.location?.coordinate.latitude ?? 0.0), Double(locationManager.location?.coordinate.longitude ?? 0.0))
@@ -116,7 +117,7 @@ class Coordinator: NSObject, ObservableObject,
             locationOverlay.location = NMGLatLng(lat: lat ?? 0.0, lng: lng ?? 0.0)
             locationOverlay.hidden = false
             
-            locationOverlay.icon = NMFOverlayImage(name: "location_overlay_icon")
+//            locationOverlay.icon = NMFOverlayImage(name: "location_overlay_icon")
             locationOverlay.iconWidth = CGFloat(NMF_LOCATION_OVERLAY_SIZE_AUTO)
             locationOverlay.iconHeight = CGFloat(NMF_LOCATION_OVERLAY_SIZE_AUTO)
             locationOverlay.anchor = CGPoint(x: 0.5, y: 1)
@@ -127,7 +128,25 @@ class Coordinator: NSObject, ObservableObject,
     
     func getNaverMapView() -> NMFNaverMapView {
         
-        view
+//        view.showLocationButton = true
+//        
+//        if let loc = location {
+//            let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: loc.coordinate.latitude, lng: loc.coordinate.longitude))
+//            cameraUpdate.animation = .easeIn
+//            cameraUpdate.animationDuration = 1.5
+//            view.mapView.moveCamera(cameraUpdate)
+//        }
+        
+        return view
+    }
+    
+    func updateNaverMapView() {
+//        if let loc = location {
+//            let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: loc.coordinate.latitude, lng: loc.coordinate.longitude))
+//            cameraUpdate.animation = .easeIn
+//            cameraUpdate.animationDuration = 1.5
+//            view.mapView.moveCamera(cameraUpdate)
+//        }
     }
     
     // 마커 부분의 lat lng를 init 부분에 호출해서 사용하면 바로 사용가능하지만
