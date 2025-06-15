@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		D89E300E2DFD9C580026BFB1 /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = D89E300D2DFD9C580026BFB1 /* NMapsMap */; };
+		D89E302A2DFDD43C0026BFB1 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D89E30292DFDD43C0026BFB1 /* FirebaseAuth */; };
+		D89E302C2DFDD43C0026BFB1 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D89E302B2DFDD43C0026BFB1 /* FirebaseFirestore */; };
+		D89E30382DFDD8B90026BFB1 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = D89E30372DFDD8B90026BFB1 /* FirebaseDatabase */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +44,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D89E300E2DFD9C580026BFB1 /* NMapsMap in Frameworks */,
+				D89E302A2DFDD43C0026BFB1 /* FirebaseAuth in Frameworks */,
+				D89E30382DFDD8B90026BFB1 /* FirebaseDatabase in Frameworks */,
+				D89E302C2DFDD43C0026BFB1 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +90,9 @@
 			name = Cafe24;
 			packageProductDependencies = (
 				D89E300D2DFD9C580026BFB1 /* NMapsMap */,
+				D89E30292DFDD43C0026BFB1 /* FirebaseAuth */,
+				D89E302B2DFDD43C0026BFB1 /* FirebaseFirestore */,
+				D89E30372DFDD8B90026BFB1 /* FirebaseDatabase */,
 			);
 			productName = Cafe24;
 			productReference = D89E2FFB2DFD9C210026BFB1 /* Cafe24.app */;
@@ -115,6 +124,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				D89E300C2DFD9C580026BFB1 /* XCRemoteSwiftPackageReference "SPM-NMapsMap" */,
+				D89E30282DFDD43C0026BFB1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D89E2FFC2DFD9C210026BFB1 /* Products */;
@@ -271,7 +281,7 @@
 		D89E300A2DFD9C220026BFB1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = D89E2FFD2DFD9C210026BFB1 /* Cafe24 */;
-			baseConfigurationReferenceRelativePath = Config.xcconfig;
+			baseConfigurationReferenceRelativePath = Private/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -282,10 +292,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Cafe24/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Cafe24;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
@@ -305,7 +313,7 @@
 		D89E300B2DFD9C220026BFB1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = D89E2FFD2DFD9C210026BFB1 /* Cafe24 */;
-			baseConfigurationReferenceRelativePath = Config.xcconfig;
+			baseConfigurationReferenceRelativePath = Private/Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -316,10 +324,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Cafe24/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Cafe24;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
@@ -368,6 +374,14 @@
 				minimumVersion = 3.21.0;
 			};
 		};
+		D89E30282DFDD43C0026BFB1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.14.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -375,6 +389,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D89E300C2DFD9C580026BFB1 /* XCRemoteSwiftPackageReference "SPM-NMapsMap" */;
 			productName = NMapsMap;
+		};
+		D89E30292DFDD43C0026BFB1 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D89E30282DFDD43C0026BFB1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		D89E302B2DFDD43C0026BFB1 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D89E30282DFDD43C0026BFB1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		D89E30372DFDD8B90026BFB1 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D89E30282DFDD43C0026BFB1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

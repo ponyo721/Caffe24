@@ -1,12 +1,15 @@
 # Created by https://www.toptal.com/developers/gitignore/api/swift,xcode,objective-c,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=swift,xcode,objective-c,macos
 
+## Private Key
+Private
+GoogleService-Info.plist
+
 ### macOS ###
 # General
 .DS_Store
 .AppleDouble
 .LSOverride
-Config.xcconfig
 
 # Icon must end with two \r
 Icon
