@@ -21,7 +21,7 @@ struct CommonBottomTabView<Content1: View, Content2: View, Content3: View>: View
             
             reportView()
                 .tabItem {
-                    Label("Report", systemImage: "magnifyingglass")
+                    Label("Report it", systemImage: "plus.square.on.square")
                 }
             
             profileView()
@@ -33,21 +33,21 @@ struct CommonBottomTabView<Content1: View, Content2: View, Content3: View>: View
 }
 
 // 각 탭에 들어갈 뷰들
-struct HomeView: View {
+struct SampleHomeView: View {
     var body: some View {
         Text("Home")
             .font(.largeTitle)
     }
 }
 
-struct ReportView: View {
+struct SampleReportView: View {
     var body: some View {
         Text("Report")
             .font(.largeTitle)
     }
 }
 
-struct ProfileView: View {
+struct SampleProfileView: View {
     var body: some View {
         Text("Profile")
             .font(.largeTitle)
@@ -56,9 +56,9 @@ struct ProfileView: View {
 
 #Preview {
     CommonBottomTabView(
-        homeView: { HomeView() },
-        reportView: { ReportView() },
-        profileView: { ProfileView() }
+        homeView: { SampleHomeView() },
+        reportView: { SampleReportView() },
+        profileView: { SampleProfileView() }
     )
 }
 

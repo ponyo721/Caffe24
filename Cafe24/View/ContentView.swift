@@ -20,8 +20,9 @@ struct ContentView: View {
                 Coordinator.shared.checkIfLocationServiceIsEnabled()
             }
             },
-            reportView: { ReportView() },
-            profileView: { ProfileView() }
+            reportView: { ReportView()
+            },
+            profileView: { SampleProfileView() }
         )
     }
 }
