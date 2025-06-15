@@ -24,3 +24,7 @@ struct NaverMap: UIViewRepresentable {
     }
     
 }
+
+#Preview {
+    NaverMap()
+}
