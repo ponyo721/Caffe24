@@ -47,12 +47,14 @@ class Coordinator: NSObject, ObservableObject,
     }
     
     func mapView(_ mapView: NMFMapView, cameraWillChangeByReason reason: Int, animated: Bool) {
-        
         // 카메라 이동이 시작되기 전 호출되는 함수
+//        print("mapView cameraWillChangeByReason")`
     }
     
     func mapView(_ mapView: NMFMapView, cameraIsChangingByReason reason: Int) {
         // 카메라의 위치가 변경되면 호출되는 함수
+//        print("mapView cameraIsChangingByReason")
+        
     }
     
     // MARK: - 위치 정보 동의 확인
@@ -94,9 +96,12 @@ class Coordinator: NSObject, ObservableObject,
         DispatchQueue.global().async {
             if CLLocationManager.locationServicesEnabled() {
                 DispatchQueue.main.async {
+                    print("locationManager init")
                     self.locationManager = CLLocationManager()
                     self.locationManager!.delegate = self
                     self.checkLocationAuthorization()
+                    self.locationManager?.startUpdatingLocation()
+                    self.setCaffeMarker()
                 }
             } else {
                 print("Show an alert letting them know this is off and to go turn i on")
@@ -106,10 +111,14 @@ class Coordinator: NSObject, ObservableObject,
     
     // MARK: - NMFMapView에서 제공하는 locationOverlay를 현재 위치로 설정
     func fetchUserLocation() {
+        print("fetchUserLocation")
+        
         if let locationManager = locationManager {
             let lat = locationManager.location?.coordinate.latitude
             let lng = locationManager.location?.coordinate.longitude
-            let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: lat ?? 0.0, lng: lng ?? 0.0), zoomTo: 15)
+            print("내 위치 == lat: \(String(describing: lat)), lng: \(String(describing: lng))")
+//            let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: lat ?? 0.0, lng: lng ?? 0.0), zoomTo: 15)
+            let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: lat ?? 0.0, lng: lng ?? 0.0))
             cameraUpdate.animation = .easeIn
             cameraUpdate.animationDuration = 1
             
@@ -118,15 +127,16 @@ class Coordinator: NSObject, ObservableObject,
             locationOverlay.hidden = false
             
 //            locationOverlay.icon = NMFOverlayImage(name: "location_overlay_icon")
-            locationOverlay.iconWidth = CGFloat(NMF_LOCATION_OVERLAY_SIZE_AUTO)
-            locationOverlay.iconHeight = CGFloat(NMF_LOCATION_OVERLAY_SIZE_AUTO)
-            locationOverlay.anchor = CGPoint(x: 0.5, y: 1)
+//            locationOverlay.iconWidth = CGFloat(NMF_LOCATION_OVERLAY_SIZE_AUTO)
+//            locationOverlay.iconHeight = CGFloat(NMF_LOCATION_OVERLAY_SIZE_AUTO)
+//            locationOverlay.anchor = CGPoint(x: 0.5, y: 1)
             
             view.mapView.moveCamera(cameraUpdate)
         }
     }
     
     func getNaverMapView() -> NMFNaverMapView {
+        print("getNaverMapView")
         
 //        view.showLocationButton = true
 //        
@@ -141,6 +151,8 @@ class Coordinator: NSObject, ObservableObject,
     }
     
     func updateNaverMapView() {
+        print("updateNaverMapView")
+        
 //        if let loc = location {
 //            let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: loc.coordinate.latitude, lng: loc.coordinate.longitude))
 //            cameraUpdate.animation = .easeIn
@@ -152,17 +164,58 @@ class Coordinator: NSObject, ObservableObject,
     // 마커 부분의 lat lng를 init 부분에 호출해서 사용하면 바로 사용가능하지만
     // 파이어베이스 연동의 문제를 생각해서 받아오도록 만들었습니다.
     
-    func setMarker(lat : Double, lng:Double) {
+//    func setMarker(lat : Double, lng:Double) {
+//        print("setMarker")
+//        
+//        let marker = NMFMarker()
+//        marker.iconImage = NMF_MARKER_IMAGE_PINK
+//        marker.position = NMGLatLng(lat: lat, lng: lng)
+//        marker.mapView = view.mapView
+//        
+//        let infoWindow = NMFInfoWindow()
+//        let dataSource = NMFInfoWindowDefaultTextSource.data()
+//        dataSource.title = "서울특별시청"
+//        infoWindow.dataSource = dataSource
+//        infoWindow.open(with: marker)
+//    }
+    
+    func setCaffeMarker() {
+        print("setCaffeMarker \(SharedData.shared.storeInfoList.count)")
         let marker = NMFMarker()
-        marker.iconImage = NMF_MARKER_IMAGE_PINK
-        marker.position = NMGLatLng(lat: lat, lng: lng)
+//        marker.position = NMGLatLng(lat: 37.5670135, lng: 126.9783740)
         marker.mapView = view.mapView
         
-        let infoWindow = NMFInfoWindow()
-        let dataSource = NMFInfoWindowDefaultTextSource.data()
-        dataSource.title = "서울특별시청"
-        infoWindow.dataSource = dataSource
-        infoWindow.open(with: marker)
+        for cafe in SharedData.shared.storeInfoList {
+            let lat = cafe.latitude ?? ""
+            let lng = cafe.longitude ?? ""
+            
+            if let doubleLat = Double(lat), let doubleLng = Double(lng){
+                let marker = NMFMarker()
+                marker.position = NMGLatLng(lat: doubleLat, lng: doubleLng)
+                marker.mapView = view.mapView
+            }
+            
+            
+                        
+//            print("카페 정보 > 이름: \(String(describing: cafe.name)), latitude: \(cafe.latitude), longitude: \(cafe.longitude)")
+            
+        }
+    }
+    
+    //MARK: --
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.first else { return }
+        
+        print("locationManager callback latitude`: \(location.coordinate.latitude), longitude: \(location.coordinate.longitude)")
+        let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: location.coordinate.latitude,
+                                                               lng: location.coordinate.longitude))
+        cameraUpdate.animation = .easeIn
+        view.mapView.moveCamera(cameraUpdate)
+        
+        // 위치 업데이트 중단 (한 번만 이동할 경우)
+        setCaffeMarker()
+        self.locationManager?.stopUpdatingLocation()
+        
     }
 }
 

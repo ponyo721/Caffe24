@@ -7,15 +7,54 @@
 
 import Foundation
 import FirebaseDatabase
+import FirebaseFirestore
 
 class FirebaseDBManager: ObservableObject {
     @Published var storeInfoList: [StoreInfo] = []
     @Published var changeCount: Int = 0
     
+    let sharedData = SharedData.shared
+    let db = Firestore.firestore()
     let ref: DatabaseReference? = Database.database().reference() // (1)
     
     private let encoder = JSONEncoder() // (2)
     private let decoder = JSONDecoder() // (2)
+    
+    func getStoreInfoList() {
+        print("[FirebaseDBManager] getStoreInfoList")
+        
+        Task{
+            do {
+                let snapshot = try await db.collection("StoreInfo").getDocuments()
+                print("[FirebaseDBManager] getStoreInfo Success")
+                for document in snapshot.documents {
+//                    print(">>> \(document.documentID) => \(document.data())")
+                    sharedData.storeInfoList.append(setStoreInfo(document.data()))
+                }
+            } catch {
+                print("Error getting documents: \(error)")
+            }
+        }
+    }
+    
+    func setStoreInfo(_ data:[String:Any]) -> StoreInfo {
+        var storeInfo: StoreInfo = StoreInfo()
+        storeInfo.id = data["id"] as? String
+        storeInfo.address = data["address"] as? String
+        storeInfo.group = data["group"] as? String
+        storeInfo.internet = data["internet"] as? String
+        storeInfo.latitude = data["latitude"] as? String
+        storeInfo.longitude = data["longitude"]  as? String
+        storeInfo.name = data["name"]  as? String
+        storeInfo.number = data["number"]  as? String
+        storeInfo.parking = data["parking"]  as? String
+        storeInfo.table = data["table"]  as? String
+        storeInfo.toilet = data["toilet"]  as? String
+        storeInfo.type = data["type"]  as? String
+        storeInfo.date = data["date"]  as? String
+        
+        return storeInfo
+    }
     
     func listenToRealtimeDatabase() {
         print("[FirebaseDBManager] listenToRealtimeDatabase")

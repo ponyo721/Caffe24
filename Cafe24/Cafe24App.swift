@@ -14,6 +14,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         print("application didFinishLaunchingWithOptions")
         FirebaseApp.configure()
         
+        FirebaseDBManager().getStoreInfoList()
+        
         return true
     }
 }
