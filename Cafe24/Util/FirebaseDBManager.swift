@@ -29,7 +29,7 @@ class FirebaseDBManager: ObservableObject {
                 print("[FirebaseDBManager] getStoreInfo Success")
                 for document in snapshot.documents {
 //                    print(">>> \(document.documentID) => \(document.data())")
-                    sharedData.storeInfoList.append(setStoreInfo(document.data()))
+                    sharedData.storeInfoList.append(setStoreInfo(document))
                 }
             } catch {
                 print("Error getting documents: \(error)")
@@ -37,9 +37,11 @@ class FirebaseDBManager: ObservableObject {
         }
     }
     
-    func setStoreInfo(_ data:[String:Any]) -> StoreInfo {
+    func setStoreInfo(_ snapshot:QueryDocumentSnapshot) -> StoreInfo {
         var storeInfo: StoreInfo = StoreInfo()
-        storeInfo.id = data["id"] as? String
+        
+        let data = snapshot.data()
+        storeInfo.id = snapshot.documentID
         storeInfo.address = data["address"] as? String
         storeInfo.group = data["group"] as? String
         storeInfo.internet = data["internet"] as? String
@@ -52,6 +54,22 @@ class FirebaseDBManager: ObservableObject {
         storeInfo.toilet = data["toilet"]  as? String
         storeInfo.type = data["type"]  as? String
         storeInfo.date = data["date"]  as? String
+        
+#if DEBUG
+        print("storeInfo.id: \(storeInfo.id ?? "NULL")")
+        print("storeInfo.address: \(storeInfo.address ?? "NULL")")
+        print("storeInfo.group: \(storeInfo.group ?? "NULL")")
+        print("storeInfo.internet: \(storeInfo.internet ?? "NULL")")
+        print("storeInfo.latitude: \(storeInfo.latitude ?? "NULL")")
+        print("storeInfo.longitude: \(storeInfo.longitude ?? "NULL")")
+        print("storeInfo.name: \(storeInfo.name ?? "NULL")")
+        print("storeInfo.number: \(storeInfo.number ?? "NULL")")
+        print("storeInfo.parking: \(storeInfo.parking ?? "NULL")")
+        print("storeInfo.table: \(storeInfo.table ?? "NULL")")
+        print("storeInfo.toilet: \(storeInfo.toilet ?? "NULL")")
+        print("storeInfo.type: \(storeInfo.type ?? "NULL")")
+        print("storeInfo.date: \(storeInfo.date ?? "NULL")")
+#endif
         
         return storeInfo
     }

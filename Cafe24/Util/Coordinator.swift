@@ -190,9 +190,35 @@ class Coordinator: NSObject, ObservableObject,
                 marker.iconImage = NMF_MARKER_IMAGE_BLUE
                 marker.position = NMGLatLng(lat: doubleLat, lng: doubleLng)
                 marker.mapView = view.mapView
+                marker.captionText = cafe.name ?? ""
+                marker.isHideCollidedCaptions = true    // 겹치면 hide
+                // 마커에 정보 저장
+                marker.userInfo = ["id": cafe.id ?? ""]
+                
+                marker.touchHandler = { (overlay: NMFOverlay) -> Bool in
+                    
+                    let info = overlay.userInfo
+                    if let id = info["id"] as? String {
+                        self.onMarkerClick(uuid: id)
+                    }
+                    
+                    print("마커가 클릭되었습니다!")
+                    // true를 반환하면 이벤트를 소비(지도 기본 동작X)
+                    // false를 반환하면 지도 기본 동작도 함께 실행됨
+                    return true
+                }
             }
 //            print("카페 정보 > 이름: \(String(describing: cafe.name)), latitude: \(cafe.latitude), longitude: \(cafe.longitude)")
         }
+    }
+    
+    func onMarkerClick(uuid:String?) {
+        guard let uuid = uuid else {
+            print("onMarkerClick uuid nil")
+            return
+        }
+        print("onMarkerClick uuid: \(uuid)")
+        
     }
     
     //MARK: --
