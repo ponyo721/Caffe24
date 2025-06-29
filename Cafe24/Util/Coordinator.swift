@@ -181,24 +181,17 @@ class Coordinator: NSObject, ObservableObject,
     
     func setCaffeMarker() {
         print("setCaffeMarker \(SharedData.shared.storeInfoList.count)")
-        let marker = NMFMarker()
-//        marker.position = NMGLatLng(lat: 37.5670135, lng: 126.9783740)
-        marker.mapView = view.mapView
-        
         for cafe in SharedData.shared.storeInfoList {
             let lat = cafe.latitude ?? ""
             let lng = cafe.longitude ?? ""
             
             if let doubleLat = Double(lat), let doubleLng = Double(lng){
                 let marker = NMFMarker()
+                marker.iconImage = NMF_MARKER_IMAGE_BLUE
                 marker.position = NMGLatLng(lat: doubleLat, lng: doubleLng)
                 marker.mapView = view.mapView
             }
-            
-            
-                        
 //            print("카페 정보 > 이름: \(String(describing: cafe.name)), latitude: \(cafe.latitude), longitude: \(cafe.longitude)")
-            
         }
     }
     

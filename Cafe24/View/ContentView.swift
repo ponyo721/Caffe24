@@ -11,19 +11,26 @@ struct ContentView: View {
     @StateObject var coordinator: Coordinator = Coordinator.shared
     
     var body: some View {
-        CommonBottomTabView(
-            homeView: { VStack {
-                NaverMap()
-                    .ignoresSafeArea(.all, edges: .top)
-            }
-            .onAppear {
-                Coordinator.shared.checkIfLocationServiceIsEnabled()
-            }
-            },
-            reportView: { ReportView()
-            },
-            profileView: { SampleProfileView() }
-        )
+        VStack(alignment: .leading) {
+            CommonNavigationView()
+            
+            Divider()
+            
+            CommonBottomTabView(
+                
+                homeView: { VStack {
+                    NaverMap()
+                        .ignoresSafeArea(.all, edges: .top)
+                }
+                .onAppear {
+                    Coordinator.shared.checkIfLocationServiceIsEnabled()
+                }
+                },
+                reportView: { ReportView()
+                },
+                profileView: { SampleProfileView() }
+            )
+        }
     }
 }
 
